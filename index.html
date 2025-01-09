@@ -6,12 +6,15 @@
   <title>Simple Music Player</title>
   <!-- Load FontAwesome icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
   <style>
     body {
       background-color: lightgreen;
+
+      /* Smoothly transition the background color */
       transition: background-color .5s;
-      font-family: Arial, sans-serif;
     }
+
     .player {
       height: 95vh;
       display: flex;
@@ -19,6 +22,7 @@
       flex-direction: column;
       justify-content: center;
     }
+
     .details {
       display: flex;
       align-items: center;
@@ -26,6 +30,7 @@
       justify-content: center;
       margin-top: 25px;
     }
+
     .track-art {
       margin: 25px;
       height: 250px;
@@ -34,28 +39,37 @@
       background-size: cover;
       border-radius: 15%;
     }
+
     .now-playing {
       font-size: 1rem;
     }
+
     .track-name {
       font-size: 3rem;
     }
+
     .track-artist {
       font-size: 1.5rem;
     }
+
     .buttons {
       display: flex;
       flex-direction: row;
       align-items: center;
     }
+
     .playpause-track, .prev-track, .next-track {
       padding: 25px;
       opacity: 0.8;
+
+      /* Smoothly transition the opacity */
       transition: opacity .2s;
     }
+
     .playpause-track:hover, .prev-track:hover, .next-track:hover {
       opacity: 1.0;
     }
+
     .slider_container {
       width: 75%;
       max-width: 400px;
@@ -63,6 +77,8 @@
       justify-content: center;
       align-items: center;
     }
+
+    /* Modify the appearance of the slider */
     .seek_slider, .volume_slider {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -73,6 +89,8 @@
       -webkit-transition: .2s;
       transition: opacity .2s;
     }
+
+    /* Modify the appearance of the slider thumb */
     .seek_slider::-webkit-slider-thumb, .volume_slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       -moz-appearance: none;
@@ -83,21 +101,27 @@
       cursor: pointer;
       border-radius: 50%;
     }
+
     .seek_slider:hover, .volume_slider:hover {
       opacity: 1.0;
     }
+
     .seek_slider {
       width: 60%;
     }
+
     .volume_slider {
       width: 30%;
     }
+
     .current-time, .total-duration {
       padding: 10px;
     }
+
     i.fa-volume-down, i.fa-volume-up {
       padding: 10px;
     }
+
     i.fa-play-circle, i.fa-pause-circle, i.fa-step-forward, i.fa-step-backward {
       cursor: pointer;
     }
@@ -133,9 +157,11 @@
     let track_art = document.querySelector(".track-art");
     let track_name = document.querySelector(".track-name");
     let track_artist = document.querySelector(".track-artist");
+
     let playpause_btn = document.querySelector(".playpause-track");
     let next_btn = document.querySelector(".next-track");
     let prev_btn = document.querySelector(".prev-track");
+
     let seek_slider = document.querySelector(".seek_slider");
     let volume_slider = document.querySelector(".volume_slider");
     let curr_time = document.querySelector(".current-time");
@@ -145,22 +171,29 @@
     let isPlaying = false;
     let updateTimer;
 
+    // Create new audio element
     let curr_track = document.createElement('audio');
 
+    // Define the tracks that have to be played
     let track_list = [
       {
         name: "SO'Y MANI",
         artist: "ASLWAYNE",
-        image: "https://images.pexels.com/photos/262034/pexels-photo-262034.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-        path: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        image: "img1.jpg",
+        path: "ASL.mp3"
       },
     ];
 
     function random_bg_color() {
+      // Get a number between 64 to 256 (for getting lighter colors)
       let red = Math.floor(Math.random() * 256) + 64;
       let green = Math.floor(Math.random() * 256) + 64;
       let blue = Math.floor(Math.random() * 256) + 64;
+
+      // Construct a color withe the given values
       let bgColor = "rgb(" + red + "," + green + "," + blue + ")";
+
+      // Set the background to that color
       document.body.style.background = bgColor;
     }
 
@@ -186,6 +219,7 @@
       seek_slider.value = 0;
     }
 
+    // Load the first track in the tracklist
     loadTrack(track_index);
 
     function playpauseTrack() {
@@ -202,7 +236,7 @@
     function pauseTrack() {
       curr_track.pause();
       isPlaying = false;
-      playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';
+      playpause_btn.innerHTML = '<i class="fa fa-play-circle fa-5x"></i>';;
     }
 
     function nextTrack() {
@@ -232,8 +266,10 @@
 
     function seekUpdate() {
       let seekPosition = 0;
+
       if (!isNaN(curr_track.duration)) {
         seekPosition = curr_track.currentTime * (100 / curr_track.duration);
+
         seek_slider.value = seekPosition;
 
         let currentMinutes = Math.floor(curr_track.currentTime / 60);
